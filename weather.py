@@ -38,7 +38,7 @@ def main():
                     'Cloudy': "☁",
                     'Mist': "#",
                     'Storm': "☈",
-                    'Thunderstorm': "☈",
+                    'Thunderstorm': "⚡",
                     'Chance of Storm': "☁?",
                     'Sleet': "S",
                     'Snow': "☃",
