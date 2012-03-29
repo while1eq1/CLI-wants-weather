@@ -19,8 +19,14 @@ def main():
     UNIT = 'C'
 
     # fetching data
-    req = urllib2.urlopen(WURL + ZIPCODE)
-    dom = parse(req)
+    req = urllib2.Request(WURL + ZIPCODE)
+    try:
+        # Handling some URL and network Error
+        f = urllib2.urlopen(req)
+    except urllib2.HTTPError, urllib2.URLError:
+        print 'The URL is not reachable'
+        return 1
+    dom = parse(f)
 
     # Weather dictionary
     # note that since google has not documented their API 
