@@ -9,17 +9,23 @@
 # Why? Because I want a cute weather indicator in my prompt
 # To Do? A lot of stuff
 
+import argparse # need python v2.7 or later
 import urllib2
 from xml.dom.minidom import parse
 
 def main():
-    # Look here if you need to configure something
-    ZIPCODE = "limoges"
+    parser = argparse.ArgumentParser(description='Get the weather and return a string')
+    parser.add_argument('-f', action="store_true", dest='fahrenheit', default=False,
+                        help='Temp in Fahrenheit (default: False)')
+    parser.add_argument('-z', action="store", dest="zipcode", default='NY',
+                        help='your zipcode or your city name (default: NY)')
+    
+    args = parser.parse_args()
+
     WURL = "http://www.google.com/ig/api?weather="
-    UNIT = 'C'
 
     # fetching data
-    req = urllib2.Request(WURL + ZIPCODE)
+    req = urllib2.Request(WURL + args.zipcode)
     try:
         # Handling some URL and network Error
         f = urllib2.urlopen(req)
@@ -59,13 +65,15 @@ def main():
     # prepare output
     wsymbol = wconditions.get(dom.getElementsByTagName('condition')[0].getAttribute('data'))
 
-    if UNIT == 'F':
+    if args.fahrenheit:
         temp = dom.getElementsByTagName('temp_f')[0].getAttribute('data')
+        unit = 'F'
     else:
         temp = dom.getElementsByTagName('temp_c')[0].getAttribute('data')
+        unit = 'C'
         
     # and now the end
-    print '%s %d°%s' % (wsymbol, int(temp), UNIT)
+    print '%s %d°%s' % (wsymbol, int(temp), unit)
 
     return 0
 
