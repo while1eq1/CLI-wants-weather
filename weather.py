@@ -37,7 +37,8 @@ def main():
     # Weather dictionary
     # note that since google has not documented their API 
     # I could be missing some weather
-    wconditions = { 'Clear': "☉",
+    wconditions = { 'Drizzle': "☂",
+    		    'Clear': "☉",
                     'Chance of Rain': "☂",
                     'Sunny': "☼",
                     'Mostly Sunny': "?",
