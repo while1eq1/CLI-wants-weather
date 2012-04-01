@@ -1,15 +1,15 @@
-#!/usr/bin/python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # weather.py
-# By: Lorenzo Bivens at gmail dot com 
 # License: Public Domain
 #
 # Gets the weather and returns a string
 # Why? Because I want a cute weather indicator in my prompt
 # To Do? A lot of stuff
+# Requres: python-argparse
 
-import argparse # need python v2.7 or later
+import argparse 
 import urllib2
 from xml.dom.minidom import parse
 
