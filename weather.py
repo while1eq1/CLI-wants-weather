@@ -19,7 +19,15 @@ def main():
                         help='Temp in Fahrenheit (default: False)')
     parser.add_argument('-z', action="store", dest="zipcode", default='NY',
                         help='your zipcode or your city name (default: NY)')
-    
+    parser.add_argument('-w', action="store_true", dest='show_wind', default=False,
+                        help='Show wind speed')
+    parser.add_argument('-H', action="store_true", dest='show_humidity', default=False,
+                        help='Show relative humidity')
+    parser.add_argument('-c', action="store_true", dest='show_city', default=False,
+    			help='Show city name before weather data') 
+    parser.add_argument('-t', action="store_true", dest='show_text', default=False,
+    			help='Show condition description') 
+     
     args = parser.parse_args()
 
     WURL = "http://www.google.com/ig/api?weather="
@@ -41,9 +49,9 @@ def main():
     		    'Clear': "☉",
                     'Chance of Rain': "☂",
                     'Sunny': "☼",
-                    'Mostly Sunny': "?",
-                    'Partly Cloudy': "☁?",
-                    'Mostly Cloudy': "☁☁",
+                    'Mostly Sunny': "☼☁",
+                    'Partly Cloudy': "☁☼",
+                    'Mostly Cloudy': "☁",
                     'Chance of Storm': "☁☂",
                     'Showers': "☂",
                     'Rain': "☔",
@@ -64,17 +72,34 @@ def main():
                     'Overcast': "☁"}
 
     # prepare output
-    wsymbol = wconditions.get(dom.getElementsByTagName('condition')[0].getAttribute('data'))
+    
+    weather = ""
+
+    if args.show_city:
+        weather += str(dom.getElementsByTagName('city')[0].getAttribute('data')) + " "
+
+    if args.show_text:
+    	weather += str(dom.getElementsByTagName('condition')[0].getAttribute('data')) + " "
+        
+    weather += str(wconditions.get(dom.getElementsByTagName('condition')[0].getAttribute('data'))) + " "
 
     if args.fahrenheit:
-        temp = dom.getElementsByTagName('temp_f')[0].getAttribute('data')
-        unit = 'F'
+    	weather += str(dom.getElementsByTagName('temp_f')[0].getAttribute('data'))
+        weather += '°F '
     else:
-        temp = dom.getElementsByTagName('temp_c')[0].getAttribute('data')
-        unit = 'C'
+        weather += str(dom.getElementsByTagName('temp_c')[0].getAttribute('data'))
+        weather += '°C '
+
+    if args.show_wind:
+    	weather += str(dom.getElementsByTagName('wind_condition')[0].getAttribute('data')).replace('Wind','≋') + " "
+    
+    if args.show_humidity:
+    	weather += str(dom.getElementsByTagName('humidity')[0].getAttribute('data')).replace('Humidity','ϕ') 
+
         
     # and now the end
-    print '%s %d°%s' % (wsymbol, int(temp), unit)
+    # print '%s %d°%s' % (wsymbol, int(temp), unit)
+    print weather
 
     return 0
 
