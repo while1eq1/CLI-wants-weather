@@ -13,7 +13,7 @@ import argparse
 import urllib2
 import json
 
-API_KEY ="API_KEY_HERE"
+API_KEY ="6c5f9a17518f02c6"
 
 def main():
     parser = argparse.ArgumentParser(description='Get the weather and return a string')
@@ -109,6 +109,7 @@ def main():
                     'Light Thunderstorms with Hail': "H⚡",
                     'Light Thunderstorms with Small Hail': "H⚡",
                     'Heavy Thunderstorms with Small Hail': "H⚡",
+                    'Fog': "#",
                     'Light Mist': "#",
                     'Heavy Mist': "#",
                     'Light Fog': "#",
