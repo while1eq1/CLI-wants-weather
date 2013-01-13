@@ -6,6 +6,9 @@ So I said to myself: Myself, Why don't you put the current weather condition in 
 And that's how this happened.
 
 ==== Notes ====
+Go to http://www.wunderground.com/weather/api/ to get your API key (Its free for <=500 queries in a day)
+Change the API_KEY variable in weather.py to the key you obtained.
+
 The script connects to wunderground and asks for the weather for a particular zipcode.
 
 Personaly I have cron job running every 1/2 h storing the weather into my $WEATHER env var...
