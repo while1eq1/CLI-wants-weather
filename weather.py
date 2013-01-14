@@ -59,6 +59,7 @@ def main():
     # Wunderground Full Weather dictionary
     wconditions = { 'Light Drizzle': "☂",
     	            'Heavy Drizzle': "☂",
+    	            'Drizzle': "☂",
     	            'Light Thunderstorm': "⚡",
     	            'Heavy Thunderstorm': "⚡",
                     'Light Rain': "☔",
