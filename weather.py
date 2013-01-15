@@ -14,7 +14,7 @@ import urllib2
 import json
 import sys
 
-API_KEY ="6c5f9a17518f02c6"
+API_KEY ="Your API Key here"
 
 def main():
     parser = argparse.ArgumentParser(description='Get the weather and return a string')
