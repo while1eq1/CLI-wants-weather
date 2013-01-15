@@ -9,9 +9,10 @@
 # Requires: python-argparse, Wunderground API Key
 # API Key can be obtained for free here: http://www.wunderground.com/weather/api/
 
-import argparse 
+import argparse
 import urllib2
 import json
+import sys
 
 API_KEY ="6c5f9a17518f02c6"
 
@@ -26,10 +27,10 @@ def main():
     parser.add_argument('-H', action="store_true", dest='show_humidity', default=False,
                         help='Show relative humidity')
     parser.add_argument('-c', action="store_true", dest='show_city', default=False,
-    			help='Show city name before weather data') 
+    			help='Show city name before weather data')
     parser.add_argument('-t', action="store_true", dest='show_text', default=False,
-    			help='Show condition description') 
-     
+    			help='Show condition description')
+
     args = parser.parse_args()
 
     BASEURL = "http://api.wunderground.com/api/%s/" % (API_KEY)
@@ -38,10 +39,11 @@ def main():
 
     try:
         f = urllib2.urlopen(geourl)
-    except urllib2.HTTPError, urllib2.URLError:
-        print "The URL is not reachable"
-	return 1
-    
+    #except urllib2.HTTPError, urllib2.URLError:
+    except urllib2.URLError,  err:
+        print("The URL is not reachable")
+        sys.exit(-1)
+
     j = json.loads(str(f.read()))
     state = str(j['location']['state'])
     city = str(j['location']['city']).replace(' ','_')
@@ -51,9 +53,9 @@ def main():
     try:
         f = urllib2.urlopen(WURL)
     except urllib2.HTTPError, urllib2.URLError:
-        print "The URL is not reachable"
-	return 1
-    
+        print("The URL is not reachable")
+        sys.exit(-1)
+
     j = json.loads(urllib2.urlopen(WURL).read())
 
     # Wunderground Full Weather dictionary
@@ -167,7 +169,7 @@ def main():
 
     if args.show_text:
     	weather += str(j['current_observation']['weather']) + " "
-        
+
     if args.fahrenheit:
     	weather += str(j['current_observation']['temp_f']) + '°F '
     else:
@@ -175,13 +177,13 @@ def main():
 
     if args.show_wind:
     	weather += str(j['current_observation']['wind_dir']) + " " + str(j['current_observation']['wind_mph']) + " MPH "
-    
+
     if args.show_humidity:
     	weather += str(j['current_observation']['relative_humidity']) + ' ϕ '
 
 
     # and now the end
-    print wconditions[j['current_observation']['weather']] + '  ' + weather
+    print(wconditions[j['current_observation']['weather']] + '  ' + weather)
 
     return 0
 

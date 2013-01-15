@@ -1,19 +1,53 @@
+TERM=xterm-256color
 
 now()
 {
 	date +%s
 }
 
-poll_every=1800 #check the weather every 30 min, otherwise, return cached weather
-$(weather.py > ~/.weather)
-weather()
+weather_color()
 {
-	last_run=$(stat -c %Y ~/.weather)
-	if [ $(( $last_run + $poll_every )) -lt $(now) ]; then
-		$(weather.py > ~/.weather)
-	fi
-	cat ~/.weather
+    weather_file=~/.weather
+
+    if (egrep -q '.' ${weather_file}); 
+    then
+        temp=$(cut -d. -f1 ~/.weather | awk '{ print $NF}')
+        
+        [ ${temp} -gt 89 ] && color="\033[1;31m"
+        [ ${temp} -gt 60 ] && [ ${temp} -lt 88 ] && color="\033[1;39m"
+        [ ${temp} -lt 55 ] && color="\033[1;36m"
+        echo -ne "${color}"
+    fi
 }
 
+weather()
+{
+    poll_every=3600
+    cliww="$(pwd)/weather.py -f -c"
+    if ! [ -e ~/.weather ]; 
+    then
+        ${cliww} > ~/.weather
+    else
+	    last_run=$(stat -f %c ~/.weather)
+    fi
 
-PS1='$(weather) \u@\h\$ '
+	if [ $(( $last_run + $poll_every )) -lt $(now) ]; 
+    then
+        res=$(${cliww})
+        if [ $? -eq 0 ]; 
+        then
+            echo ${res} > ~/.weather
+        fi
+	fi
+
+    weather_color
+    cat ~/.weather
+}
+
+_update_ps1()
+{ 
+    # This addon works quite nice if you're using something like powerline.
+    export PS1="$(echo "$(weather)" && ~/powerline-bash/powerline-bash.py $?)"
+}
+
+export PROMPT_COMMAND="_update_ps1"
