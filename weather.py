@@ -35,13 +35,14 @@ def main():
 
     BASEURL = "http://api.wunderground.com/api/%s/" % (API_KEY)
     WURL = BASEURL + 'conditions/q/'
+    alertsurl = BASEURL + 'alerts/q/'
     geourl = BASEURL + "geolookup/q/%s.json" % (args.zipcode)
 
     try:
         f = urllib2.urlopen(geourl)
     #except urllib2.HTTPError, urllib2.URLError:
     except urllib2.URLError,  err:
-        print("The URL is not reachable: {}".format(err))
+        print("The Geolocation URL is not reachable: {}".format(err))
         sys.exit(-1)
 
     j = json.loads(str(f.read()))
@@ -49,13 +50,21 @@ def main():
     city = str(j['location']['city']).replace(' ','_')
 
     WURL += state + '/' + city + '.json'
+    alertsurl += state + '/' + city + '.json'
 
     try:
         f = urllib2.urlopen(WURL)
     except urllib2.HTTPError, urllib2.URLError:
-        print("The URL is not reachable")
+        print("The Weather URL is not reachable")
         sys.exit(-1)
 
+    try:
+        f = urllib2.urlopen(alertsurl)
+    except urllib2.HTTPError, urllib2.URLError:
+        print("The Alerts URL is not reachable")
+        sys.exit(-1)
+
+    alerts = json.loads(urllib2.urlopen(alertsurl).read())
     j = json.loads(urllib2.urlopen(WURL).read())
 
     # Wunderground Full Weather dictionary
@@ -152,7 +161,6 @@ def main():
                     'Chance of Snow': "☃",
                     'Storm': "☈",
                     'Thunderstorm': "⚡",
-                    'Chance of Storm': "☁?",
                     'Sleet': "S",
                     'Icy': "I",
                     'Light Haze': "H",
@@ -184,7 +192,10 @@ def main():
 
 
     # and now the end
-    print wconditions[j['current_observation']['weather']] + '  ' + weather
+    if alerts['alerts']:
+        print wconditions[j['current_observation']['weather']] + '  ' + weather + "⚠ " + str(alerts['alerts'][0]['description']) + " ⚠ "
+    else:
+        print wconditions[j['current_observation']['weather']] + '  ' + weather
 
     return(0)
 
