@@ -64,13 +64,14 @@ def main():
     	            'Drizzle': "☂",
     	            'Light Thunderstorm': "⚡",
     	            'Heavy Thunderstorm': "⚡",
-                    'Light Rain': "☔",
-                    'Heavy Rain': "☔",
+                    'Rain': "☂",
+                    'Light Rain': "☂",
+                    'Heavy Rain': "☂",
                     'Chance of Rain': "☂",
-                    'Light Rain Showers': "☔",
-                    'Heavy Rain Showers': "☔",
-                    'Light Thunderstorms and Rain': "⚡ ☔",
-                    'Heavy Thunderstorms and Rain': "⚡ ☔",
+                    'Light Rain Showers': "☂",
+                    'Heavy Rain Showers': "☂",
+                    'Light Thunderstorms and Rain': "⚡ ☂",
+                    'Heavy Thunderstorms and Rain': "⚡ ☂",
     	            'Light Rain Mist': "☂",
     	            'Heavy Rain Mist': "☂",
     	            'Light Spray': "☂",
@@ -183,7 +184,11 @@ def main():
 
 
     # and now the end
+<<<<<<< HEAD
     print(wconditions[j['current_observation']['weather']] + '  ' + weather)
+=======
+    print wconditions[j['current_observation']['weather']] + '   ' + weather
+>>>>>>> db79f2d1d46500ff7ea48603bd7adc093f47af2e
 
     return 0
 
