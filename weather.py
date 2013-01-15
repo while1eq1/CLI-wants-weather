@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
 # weather.py
@@ -184,13 +184,9 @@ def main():
 
 
     # and now the end
-<<<<<<< HEAD
-    print(wconditions[j['current_observation']['weather']] + '  ' + weather)
-=======
-    print wconditions[j['current_observation']['weather']] + '   ' + weather
->>>>>>> db79f2d1d46500ff7ea48603bd7adc093f47af2e
+    print wconditions[j['current_observation']['weather']] + '  ' + weather
 
-    return 0
+    return(0)
 
 if __name__ == '__main__':
     main()
