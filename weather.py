@@ -41,7 +41,7 @@ def main():
         f = urllib2.urlopen(geourl)
     #except urllib2.HTTPError, urllib2.URLError:
     except urllib2.URLError,  err:
-        print("The URL is not reachable")
+        print("The URL is not reachable: {}".format(err))
         sys.exit(-1)
 
     j = json.loads(str(f.read()))
