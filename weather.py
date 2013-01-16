@@ -29,9 +29,11 @@ def main():
     parser.add_argument('-H', action="store_true", dest='show_humidity', default=False,
                         help='Show relative humidity')
     parser.add_argument('-c', action="store_true", dest='show_city', default=False,
-    			help='Show city name before weather data')
+                        help='Show city name before weather data')
     parser.add_argument('-t', action="store_true", dest='show_text', default=False,
-    			help='Show condition description')
+                        help='Show condition description')
+    parser.add_argument('-a', action="store_true", dest='show_alerts', default=False,
+                        help='Show severe weather alerts')
 
     args = parser.parse_args()
 
@@ -89,10 +91,12 @@ def main():
     if args.show_humidity:
     	weather += str(j['current_observation']['relative_humidity']) + ' ϕ '
 
-
     # and now the end
-    if alerts['alerts']:
-        print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather + "⚠ " + str(alerts['alerts'][0]['description']) + " ⚠ "
+    if args.show_alerts:
+        if alerts['alerts']:
+            print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather + "⚠ " + str(alerts['alerts'][0]['description']) + " ⚠ "
+        else:
+            print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather
     else:
         print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather
 
@@ -100,4 +104,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
