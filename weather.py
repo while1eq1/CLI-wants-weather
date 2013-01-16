@@ -54,7 +54,6 @@ def main():
     city = str(j['location']['city']).replace(' ','_')
 
     WURL += state + '/' + city + '.json'
-    alertsurl += state + '/' + city + '.json'
 
     try:
         f = urllib2.urlopen(WURL)
@@ -62,13 +61,6 @@ def main():
         print("The Weather URL is not reachable")
         sys.exit(-1)
 
-    try:
-        f = urllib2.urlopen(alertsurl)
-    except urllib2.HTTPError, urllib2.URLError:
-        print("The Alerts URL is not reachable")
-        sys.exit(-1)
-
-    alerts = json.loads(urllib2.urlopen(alertsurl).read())
     j = json.loads(urllib2.urlopen(WURL).read())
 
     # prepare output
@@ -93,6 +85,15 @@ def main():
 
     # and now the end
     if args.show_alerts:
+        alertsurl += state + '/' + city + '.json'
+        try:
+            f = urllib2.urlopen(alertsurl)
+        except urllib2.HTTPError, urllib2.URLError:
+            print("The Alerts URL is not reachable")
+            sys.exit(-1)
+
+        alerts = json.loads(urllib2.urlopen(alertsurl).read())
+
         if alerts['alerts']:
             print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather + "⚠ " + str(alerts['alerts'][0]['description']) + " ⚠ "
         else:
