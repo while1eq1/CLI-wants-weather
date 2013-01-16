@@ -16,7 +16,11 @@ import json
 import sys
 import os
 
-API_KEY = os.environ['APIKEY']
+API_KEY = os.environ.get('APIKEY',None)
+
+if API_KEY is None:
+    sys.stderr.write('APIKEY not set in environment!')
+    sys.exit(-1)
 
 def main():
     parser = argparse.ArgumentParser(description='Get the weather and return a string')
