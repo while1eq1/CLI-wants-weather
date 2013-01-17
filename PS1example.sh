@@ -1,5 +1,7 @@
 TERM=xterm-256color
 
+export APIKEY="myapikey"
+
 now()
 {
 	date +%s
