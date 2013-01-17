@@ -7,7 +7,9 @@ And that's how this happened.
 
 ==== Notes ====
 Go to http://www.wunderground.com/weather/api/ to get your API key (Its free for <=500 queries in a day)
-Change the API_KEY variable in weather.py to the key you obtained.
+Set APIKEY env varible to the API Key you've obtained.
+
+export APIKEY="myapikey"
 
 The script connects to wunderground and asks for the weather for a particular zipcode.
 
