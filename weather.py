@@ -98,7 +98,7 @@ def main():
 
         alerts = json.loads(urllib2.urlopen(alertsurl).read())
 
-        if alerts['alerts']:
+        if alerts['alerts'] and str(alerts['alerts'][0]['description']) != "Special Statement":
             print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather + "⚠ " + str(alerts['alerts'][0]['description']) + " ⚠ "
         else:
             print weatherdict.wconditions[j['current_observation']['weather']] + '  ' + weather
