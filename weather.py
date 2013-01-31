@@ -16,11 +16,12 @@ import json
 import sys
 import os
 
-API_KEY = os.environ.get('APIKEY',None)
+API_KEY = os.environ.get('APIKEY', None)
 
 if API_KEY is None:
     sys.stderr.write('APIKEY not set in environment!')
     sys.exit(-1)
+
 
 def main():
     parser = argparse.ArgumentParser(description='Get the weather and return a string')
@@ -55,7 +56,7 @@ def main():
 
     j = json.loads(str(f.read()))
     state = str(j['location']['state'])
-    city = str(j['location']['city']).replace(' ','_')
+    city = str(j['location']['city']).replace(' ', '_')
 
     WURL += state + '/' + city + '.json'
 
@@ -74,18 +75,18 @@ def main():
         weather += str(j['current_observation']['display_location']['city']) + " "
 
     if args.show_text:
-    	weather += str(j['current_observation']['weather']) + " "
+        weather += str(j['current_observation']['weather']) + " "
 
     if args.fahrenheit:
-    	weather += str(j['current_observation']['temp_f']) + '°F '
+        weather += str(j['current_observation']['temp_f']) + '°F '
     else:
         weather += str(j['current_observation']['temp_c']) + '°C '
 
     if args.show_wind:
-    	weather += str(j['current_observation']['wind_dir']) + " " + str(j['current_observation']['wind_mph']) + " MPH "
+        weather += str(j['current_observation']['wind_dir']) + " " + str(j['current_observation']['wind_mph']) + " MPH "
 
     if args.show_humidity:
-    	weather += str(j['current_observation']['relative_humidity']) + ' ϕ '
+        weather += str(j['current_observation']['relative_humidity']) + ' ϕ '
 
     # and now the end
     if args.show_alerts:
